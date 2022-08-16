@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Filmes_API.Models;
+using Filmes_API.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Filmes_API.Controllers
 {
@@ -8,21 +10,52 @@ namespace Filmes_API.Controllers
     [ApiController]
     public class FilmeController : ControllerBase
     {
-        Filme filme = new Filme(1,
-                9.5f,
-                "Brilho Eterno de Uma Mente Sem Lembranças",
-                2004,
-                108,
-                "Quando sua relaçao se volta complicada, um casal tenta um procedimento " +
+        /*public List<Filme> filmes = new List<Filme>
+        {
+        new Filme
+            {
+                Id_filme = 1,
+                nota = 9.5f,
+                titulo = "Brilho Eterno de Uma Mente Sem Lembranças",
+                ano = 2004,
+                duracao = 108,
+                sinopse = "Quando sua relaçao se volta complicada, um casal tenta um procedimento " +
                 "médico para que suas memorias sejam apagadas.",
-                "14");
+                classif_indicativa = "14",
+            },
 
+            new Filme
+            {
+                Id_filme = 2,
+                nota = 9.5f,
+                titulo = "Waking Life",
+                ano = 2001,
+                duracao = 99,
+                sinopse = "Um homem constrói um sonho ao encontrar várias pessoas e discutir os significados " +
+                "e propósitos do universo.",
+                classif_indicativa = "Livre",
+            },
+        };*/
+        private readonly Contexto _contexto;
 
+        public FilmeController(Contexto contexto)
+        {
+            _contexto = contexto;
+        }
 
-    [HttpGet]
+        [HttpGet]
         public async Task<ActionResult<List<Filme>>> Get()
         {
-            return Ok(filme);
+            return Ok(await _contexto.Filmes.ToListAsync());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Filme>>> AddFilme(Filme filme)
+        {
+            _contexto.Filmes.Add(filme);
+            await _contexto.SaveChangesAsync();
+            return Ok(await _contexto.Filmes.ToListAsync());
         }
     }
+
 }

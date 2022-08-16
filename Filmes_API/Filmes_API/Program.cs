@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Filmes_API.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,8 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+builder.Services.AddEntityFrameworkNpgsql().AddDbContext<Contexto>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaulConnection")));
 
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -23,3 +26,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
