@@ -46,7 +46,8 @@ namespace Filmes_API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Filme>>> Get()
         {
-            return Ok(await _contexto.Filmes.ToListAsync());
+            var filmes = _contexto.Filmes.Include(x => x.Diretor).Include(x => x.Genero);
+            return Ok(filmes.ToList());
         }
 
         [HttpPost]
@@ -54,7 +55,8 @@ namespace Filmes_API.Controllers
         {
             _contexto.Filmes.Add(filme);
             await _contexto.SaveChangesAsync();
-            return Ok(await _contexto.Filmes.ToListAsync());
+            var filmes = _contexto.Filmes.Include(x => x.Diretor).Include(x => x.Genero);
+            return Ok(filmes.ToList());
         }
     }
 
