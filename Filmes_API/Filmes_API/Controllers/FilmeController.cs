@@ -73,10 +73,26 @@ namespace Filmes_API.Controllers
             if (!string.IsNullOrEmpty(titulo_filme))
             {
                 query = query.Where(x => x.titulo.ToLower().Contains(titulo_utf8.ToLower()));
-                
             }
 
             return Ok(await query.ToListAsync());
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<List<Filme>>> EditaFilme(int id, Filme filme)
+        {
+            IQueryable<Filme> query;
+
+            if (id != filme.Id)
+            {
+                return BadRequest();
+            }
+
+            _contexto.Entry(filme).State = EntityState.Modified;
+
+            await _contexto.SaveChangesAsync();
+
+            return Ok(await _contexto.Filmes.Include(x => x.Diretor).Include(x => x.Genero).ToListAsync());
         }
     }
 
