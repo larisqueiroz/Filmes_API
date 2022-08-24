@@ -13,16 +13,5 @@ namespace Filmes_API.Models
 
         public static List<Filme> Filmes { get; set; } = new List<Filme>();
 
-        /*public Diretor(string nome_campo)
-            {
-                nome_diretor = nome_campo;
-
-            }
-
-            public Diretor(int id_campo, string nome_campo)
-            {
-                Id_diretor = id_campo;
-                nome_diretor = nome_campo;
-            }*/
     }
 }

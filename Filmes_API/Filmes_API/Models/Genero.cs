@@ -13,15 +13,5 @@ namespace Filmes_API.Models
 
         public static List<Filme> Filmes { get; set; } =  new List<Filme>();
 
-        /*public Genero(string genero_campo)
-        {
-            genero = genero_campo;
-        }
-
-        public Genero(int id_campo, string genero_campo)
-        {
-            Id_genero = id_campo;
-            genero = genero_campo;
-        }*/
     }
 }

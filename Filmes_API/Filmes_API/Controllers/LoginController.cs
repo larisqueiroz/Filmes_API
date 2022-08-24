@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Filmes_API.Controllers
 {
-    [Route("api/cadastro")]
+    [Route("api/usuario")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -59,9 +59,44 @@ namespace Filmes_API.Controllers
             };
             var resultado = await _usuario.CreateAsync(user, cadastro.senha);
             if (!resultado.Succeeded)
-                return BadRequest("A senha deve ter pelo menos uma letra maiúscula e um símbolo.");
+                return BadRequest("Erro. A senha deve ter pelo menos uma letra maiúscula, um número e um símbolo.");
 
             return Ok("Usuário criado com sucesso.");
+        }
+
+        [HttpPost]
+        [Route("novoadmin")]
+        public async Task<IActionResult> CadastroAdmin([FromBody] Cadastro cadastro)
+        {
+            var usuario_existente = await _usuario.FindByNameAsync(cadastro.username);
+            if (usuario_existente != null)
+                return BadRequest("Username já existe.");
+
+            IdentityUser user = new()
+            {
+                Email = cadastro.email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = cadastro.username
+            };
+            var resultado = await _usuario.CreateAsync(user, cadastro.senha);
+            if (!resultado.Succeeded)
+                return BadRequest("Erro. A senha deve ter pelo menos uma letra maiúscula, um número e um símbolo.");
+
+            if (!await _permissoes.RoleExistsAsync(UsuarioTipo.admin))
+                await _permissoes.CreateAsync(new IdentityRole(UsuarioTipo.admin));
+            if (!await _permissoes.RoleExistsAsync(UsuarioTipo.usuario))
+                await _permissoes.CreateAsync(new IdentityRole(UsuarioTipo.usuario));
+
+            if (await _permissoes.RoleExistsAsync(UsuarioTipo.admin))
+            {
+                await _usuario.AddToRoleAsync(user, UsuarioTipo.admin);
+            }
+            if (await _permissoes.RoleExistsAsync(UsuarioTipo.admin))
+            {
+                await _usuario.AddToRoleAsync(user, UsuarioTipo.usuario);
+            }
+
+            return Ok("Usuário administrador criado com sucesso.");
         }
 
         [HttpPost]

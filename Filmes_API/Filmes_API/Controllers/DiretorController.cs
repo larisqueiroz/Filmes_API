@@ -18,10 +18,10 @@ namespace Filmes_API.Controllers
             _contexto = contexto;
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public async Task<ActionResult<List<Diretor>>> Get()
         {
             return Ok(await _contexto.Diretores.ToListAsync());
-        }
+        }*/
     }
 }
