@@ -3,6 +3,7 @@ using Filmes_API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Filmes_API.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Filmes_API.Controllers
 {
@@ -10,23 +11,6 @@ namespace Filmes_API.Controllers
     [ApiController]
     public class DiretorController : ControllerBase
     {
-        /*private static List<Diretor> diretores = new List<Diretor>
-        {
-
-        new Diretor
-            {
-                Id_diretor = 1,
-                nome_diretor = "Michel Gondry",
-        },
-
-        new Diretor
-            {
-                Id_diretor = 2,
-                nome_diretor = "Richard Linklater",
-            },
-        };*/
-
-
         private readonly Contexto _contexto;
 
         public DiretorController(Contexto contexto)
