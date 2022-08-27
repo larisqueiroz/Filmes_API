@@ -267,3 +267,5 @@ C:\Users\admin\Desktop\projeto-inicial-larissa\Filmes_API\Filmes_API\bin\Debug\n
 C:\Users\admin\Desktop\projeto-inicial-larissa\Filmes_API\Filmes_API\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\admin\Desktop\projeto-inicial-larissa\Filmes_API\Filmes_API\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\admin\Desktop\projeto-inicial-larissa\Filmes_API\Filmes_API\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\admin\Desktop\projeto-inicial-larissa\Filmes_API\Filmes_API\bin\Debug\net6.0\Filmes_API.xml
+C:\Users\admin\Desktop\projeto-inicial-larissa\Filmes_API\Filmes_API\obj\Debug\net6.0\Filmes_API.xml

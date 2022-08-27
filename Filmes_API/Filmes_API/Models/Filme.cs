@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 namespace Filmes_API.Models
 {
     [Table("Filme")]
@@ -25,29 +26,7 @@ namespace Filmes_API.Models
         public string sinopse { get; set; } = string.Empty;
         public string classif_indicativa { get; set; } = string.Empty;
 
-
-        /*public Filme(int diretorId, int generoId, float nota_campo, string titulo_campo, int ano_campo, int duracao_campo, 
-            string sinopse_campo, string classif_ind_campo)
-        {
-            nota = nota_campo;
-            titulo = titulo_campo;
-            ano = ano_campo;
-            duracao = duracao_campo;
-            sinopse = sinopse_campo;
-            classif_indicativa = classif_ind_campo;
-        }
-
-        public Filme(int id_campo, int diretorId, int generoId, float nota_campo, string titulo_campo, int ano_campo, int duracao_campo,
-            string sinopse_campo, string classif_ind_campo)
-        {
-            Id_filme = id_campo;
-            nota = nota_campo;
-            titulo = titulo_campo;
-            ano = ano_campo;
-            duracao = duracao_campo;
-            sinopse = sinopse_campo;
-            classif_indicativa = classif_ind_campo;
-        }*/
+        public static List<Avaliacao> Avaliacoes { get; set; } = new List<Avaliacao>();
 
     }
 

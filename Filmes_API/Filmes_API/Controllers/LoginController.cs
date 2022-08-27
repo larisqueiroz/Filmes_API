@@ -42,7 +42,9 @@ namespace Filmes_API.Controllers
                 return jwt;
         }
 
-        //[AllowAnonymous]
+        /// <summary>
+        /// Cadastra um novo usuário.
+        /// </summary>
         [HttpPost]
         [Route("novousuario")]
         public async Task<IActionResult> Cadastro([FromBody] Cadastro cadastro)
@@ -64,6 +66,9 @@ namespace Filmes_API.Controllers
             return Ok("Usuário criado com sucesso.");
         }
 
+        /// <summary>
+        /// Cadastra um novo usuário admin.
+        /// </summary>
         [HttpPost]
         [Route("novoadmin")]
         public async Task<IActionResult> CadastroAdmin([FromBody] Cadastro cadastro)
@@ -99,6 +104,9 @@ namespace Filmes_API.Controllers
             return Ok("Usuário administrador criado com sucesso.");
         }
 
+        /// <summary>
+        /// Faz o login no sistema.
+        /// </summary>
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] Login login)
@@ -120,7 +128,7 @@ namespace Filmes_API.Controllers
 
                 var token = getToken(claims);
 
-                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                return Ok("Bearer " + new JwtSecurityTokenHandler().WriteToken(token));
             }
             return Unauthorized("Usuário ou senha inválido. Tente novamente");
             

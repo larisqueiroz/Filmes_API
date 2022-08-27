@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -42,9 +44,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(x =>
 {
+    x.SwaggerDoc("v1", new OpenApiInfo { 
+        Version = "v1",
+        Title = "Filmes API",
+        Description = "Uma API ASP.NET Core Web para avaliação de filmes"});
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    x.IncludeXmlComments(xmlPath);
+
     x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
-        Description = "Autorização JWT usando Bearer",
+        Description = "Autorização JWT usando Bearer. Copie aqui o retorno do login (Bearer [token]).",
         Name = "Authorization",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,

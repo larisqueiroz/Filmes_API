@@ -23,6 +23,11 @@ namespace Filmes_API.Controllers
             _contexto = contexto;
         }
 
+        /// <summary>
+        /// Lista todos os filmes.
+        /// </summary>
+        /// <returns>Retorna os filmes cadastrados</returns>
+        /// <response code="200">Lista de filmes cadastrados</response>
         [HttpGet]
         public async Task<ActionResult<List<Filme>>> Get()
         {
@@ -30,6 +35,10 @@ namespace Filmes_API.Controllers
             return Ok(filmes.ToList());
         }
 
+        /// <summary>
+        /// Cadastra um novo filme.
+        /// </summary>
+        /// <returns>Retorna todos os filmes e o novo cadastrado.</returns>
         [HttpPost]
         public async Task<ActionResult<List<Filme>>> AddFilme(Filme filme)
         {
@@ -39,6 +48,10 @@ namespace Filmes_API.Controllers
             return Ok(filmes.ToList());
         }
 
+        /// <summary>
+        /// Pesquisa um filme pelo título ou parte dele.
+        /// </summary>
+        /// <returns>Retorna o filme pesquisado.</returns>
         [HttpGet("pesquisa")]
         public async Task<ActionResult<List<Filme>>> PesquisaFilme(string titulo_filme)
         {
@@ -55,6 +68,10 @@ namespace Filmes_API.Controllers
             return Ok(await query.ToListAsync());
         }
 
+        /// <summary>
+        /// Edita um filme pelo id.
+        /// </summary>
+        /// <returns>Retorna todos os filmes e o editado.</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<List<Filme>>> EditaFilme(int id, Filme filme)
         {
@@ -71,6 +88,27 @@ namespace Filmes_API.Controllers
 
             return Ok(await _contexto.Filmes.Include(x => x.Diretor).Include(x => x.Genero).ToListAsync());
         }
+
+        /// <summary>
+        /// Faz a avaliação de um filme.
+        /// </summary>
+        [HttpPost("{id}/avaliacao")]
+        public async Task<ActionResult> avaliacao(int id, [FromBody]Avaliacao avaliacao)
+        {
+            avaliacao.FilmeRefId = id;
+            _contexto.Avaliacoes.Add(avaliacao);
+            await _contexto.SaveChangesAsync();
+
+            return Ok(await _contexto.Avaliacoes.ToListAsync());
+        }
+
+        [HttpGet("avaliacoes")]
+        public async Task<ActionResult<List<Avaliacao>>> GetAvaliacoes()
+        {
+            var notas = _contexto.Avaliacoes;
+            return Ok(notas.ToList());
+        }
+        
     }
 
 }

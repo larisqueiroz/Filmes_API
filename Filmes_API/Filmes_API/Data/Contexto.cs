@@ -12,11 +12,14 @@ namespace Filmes_API.Data
         public DbSet<Filme> Filmes { get; set; }
         public DbSet<Diretor> Diretores { get; set; }
         public DbSet<Genero> Generos { get; set; }
+        public DbSet<Avaliacao> Avaliacoes { get; set; }
+
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Cadastro>().HasNoKey();
-            builder.Entity<Login>().HasNoKey();
+            //builder.Entity<Login>().HasNoKey();
             base.OnModelCreating(builder);
         }
 
