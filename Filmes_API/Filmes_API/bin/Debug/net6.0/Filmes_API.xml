@@ -34,6 +34,11 @@
             Faz a avaliação de um filme.
             </summary>
         </member>
+        <member name="M:Filmes_API.Controllers.FilmeController.GetAvaliacoes">
+            <summary>
+            Faz a leitura das avaliações do usuário online.
+            </summary>
+        </member>
         <member name="M:Filmes_API.Controllers.LoginController.Cadastro(Filmes_API.Auth.Cadastro)">
             <summary>
             Cadastra um novo usuário.

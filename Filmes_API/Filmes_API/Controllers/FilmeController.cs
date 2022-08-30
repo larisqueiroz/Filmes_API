@@ -114,7 +114,11 @@ namespace Filmes_API.Controllers
         public async Task<ActionResult> avaliacao(int id, [FromBody]Avaliacao avaliacao)
         {
             string id_usuario_logado = User.Identity.Name;
-            //User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (_contexto.Avaliacoes.Any(x => x.UsuarioRefId == id_usuario_logado && x.FilmeRefId == id) == true)
+            {
+                return BadRequest("Usuário já votou nesse filme.");
+            }
 
             avaliacao.UsuarioRefId = id_usuario_logado;
 
@@ -126,10 +130,13 @@ namespace Filmes_API.Controllers
             return Ok(await _contexto.Avaliacoes.Where(x => x.UsuarioRefId == id_usuario_logado && x.FilmeRefId == id).ToListAsync());
         }
 
+        /// <summary>
+        /// Faz a leitura das avaliações do usuário online.
+        /// </summary>
         [HttpGet("avaliacoes")]
         public async Task<ActionResult<List<Avaliacao>>> GetAvaliacoes()
         {
-            var id_usuario_logado = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var id_usuario_logado = User.Identity.Name;
             var notas = await _contexto.Avaliacoes.Where(x => x.UsuarioRefId == id_usuario_logado).ToListAsync();
             return Ok(notas);
         }
