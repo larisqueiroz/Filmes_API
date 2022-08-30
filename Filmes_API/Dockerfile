@@ -2,18 +2,24 @@
 
 #Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
 #For more information, please see https://aka.ms/containercompat
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS build
-WORKDIR /src
-COPY Filmes_API.csproj .
-RUN dotnet restore "Filmes_API.csproj" --disable-parallel
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS base
+WORKDIR /app
+
+FROM sffrotaa/dotnet:sdk6.0 AS build
 COPY . .
-RUN dotnet publish "Filmes_API.csproj" -c Release -o /publish
+WORKDIR /Filmes_API
+RUN dotnet restore
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 as final
+RUN dotnet build -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish -c Release -o /app
+
+FROM base AS final
 WORKDIR /app
-COPY --from=build /publish .
-ENTRYPOINT [ "dotnet", "Filmes_API.dll" ]
+COPY --from=publish /app .
+
+ENV TZ 'America/Fortaleza'
+
+ENTRYPOINT ["dotnet", "Filmes_API.dll"]
