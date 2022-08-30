@@ -13,9 +13,7 @@ namespace Filmes_API.Models
         [Required]
         public int FilmeRefId { get; set; }
 
-
         [ForeignKey("Usuario")]
-        [Required]
-        public int UsuarioRefId { get; set; }
+        public string UsuarioRefId { get; set; }
     }
 }

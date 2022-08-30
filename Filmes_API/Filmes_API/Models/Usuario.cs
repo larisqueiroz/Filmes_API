@@ -1,16 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace Filmes_API.Models
 {
-    public class Usuario
+    public class Usuario: IdentityUser
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        [ForeignKey("Login")]
-        [Required]
-        public int LoginRefId { get; set; }
 
         public static List<Avaliacao> Avaliacoes { get; set; } = new List<Avaliacao>();
     }

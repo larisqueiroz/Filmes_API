@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Web;
 using System;
 using System.Text;
+using System.Security.Claims;
+using Filmes_API.Auth;
+using Microsoft.AspNetCore.Identity;
 
 namespace Filmes_API.Controllers
 {
@@ -21,6 +24,21 @@ namespace Filmes_API.Controllers
         public FilmeController(Contexto contexto)
         {
             _contexto = contexto;
+        }
+
+        private void atualiza_nota_media(int id) // iterar em notas, se id == id_filme
+        {
+
+            float soma_notas = _contexto.Avaliacoes.Where(x => x.FilmeRefId == id).Sum(i => i.avaliacao);
+            int total_usuarios = _contexto.Avaliacoes.Where(x => x.FilmeRefId == id).Count();
+            //int total_usuarios = _contexto.Users.Count();
+
+            float media_final = soma_notas / total_usuarios;
+
+            var valor_atualizado = _contexto.Filmes.Find(id);
+            valor_atualizado.nota = media_final;
+            _contexto.Entry(valor_atualizado).State = EntityState.Modified;
+            _contexto.SaveChanges();
         }
 
         /// <summary>
@@ -95,18 +113,25 @@ namespace Filmes_API.Controllers
         [HttpPost("{id}/avaliacao")]
         public async Task<ActionResult> avaliacao(int id, [FromBody]Avaliacao avaliacao)
         {
-            avaliacao.FilmeRefId = id;
+            string id_usuario_logado = User.Identity.Name;
+            //User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            avaliacao.UsuarioRefId = id_usuario_logado;
+
             _contexto.Avaliacoes.Add(avaliacao);
             await _contexto.SaveChangesAsync();
 
-            return Ok(await _contexto.Avaliacoes.ToListAsync());
+            atualiza_nota_media(id);
+
+            return Ok(await _contexto.Avaliacoes.Where(x => x.UsuarioRefId == id_usuario_logado && x.FilmeRefId == id).ToListAsync());
         }
 
         [HttpGet("avaliacoes")]
         public async Task<ActionResult<List<Avaliacao>>> GetAvaliacoes()
         {
-            var notas = _contexto.Avaliacoes;
-            return Ok(notas.ToList());
+            var id_usuario_logado = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var notas = await _contexto.Avaliacoes.Where(x => x.UsuarioRefId == id_usuario_logado).ToListAsync();
+            return Ok(notas);
         }
         
     }
