@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Filmes_API</name>
+    </assembly>
+    <members>
+        <member name="M:Filmes_API.Controllers.FilmeController.Get">
+            <summary>
+            Lista todos os filmes.
+            </summary>
+            <returns>Retorna os filmes cadastrados</returns>
+            <response code="200">Lista de filmes cadastrados</response>
+        </member>
+        <member name="M:Filmes_API.Controllers.FilmeController.AddFilme(Filmes_API.Models.Filme)">
+            <summary>
+            Cadastra um novo filme.
+            </summary>
+            <returns>Retorna todos os filmes e o novo cadastrado.</returns>
+        </member>
+        <member name="M:Filmes_API.Controllers.FilmeController.PesquisaFilme(System.String)">
+            <summary>
+            Pesquisa um filme pelo título ou parte dele.
+            </summary>
+            <returns>Retorna o filme pesquisado.</returns>
+        </member>
+        <member name="M:Filmes_API.Controllers.FilmeController.EditaFilme(System.Int32,Filmes_API.Models.Filme)">
+            <summary>
+            Edita um filme pelo id.
+            </summary>
+            <returns>Retorna todos os filmes e o editado.</returns>
+        </member>
+        <member name="M:Filmes_API.Controllers.FilmeController.avaliacao(System.Int32,Filmes_API.Models.Avaliacao)">
+            <summary>
+            Faz a avaliação de um filme.
+            </summary>
+        </member>
+        <member name="M:Filmes_API.Controllers.LoginController.Cadastro(Filmes_API.Auth.Cadastro)">
+            <summary>
+            Cadastra um novo usuário.
+            </summary>
+        </member>
+        <member name="M:Filmes_API.Controllers.LoginController.CadastroAdmin(Filmes_API.Auth.Cadastro)">
+            <summary>
+            Cadastra um novo usuário admin.
+            </summary>
+        </member>
+        <member name="M:Filmes_API.Controllers.LoginController.Login(Filmes_API.Auth.Login)">
+            <summary>
+            Faz o login no sistema.
+            </summary>
+        </member>
+    </members>
+</doc>
